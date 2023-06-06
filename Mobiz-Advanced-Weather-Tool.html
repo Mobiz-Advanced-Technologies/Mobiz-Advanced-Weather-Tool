@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Mobiz-Advanced-Weather-Tool</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f9f9f9;
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+			color: #333;
+		}
+
+		form {
+			margin: 0 auto;
+			text-align: center;
+			max-width: 500px;
+		}
+
+		input[type="text"] {
+			padding: 10px;
+			width: 60%;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		}
+
+		input[type="submit"] {
+			padding: 10px 20px;
+			background-color: #333;
+			color: #fff;
+			border-radius: 5px;
+			border: none;
+			cursor: pointer;
+            width: 100%;
+		}
+
+		div {
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+			max-width: 500px;
+            height: fit-content;
+		}
+
+		.weather-info h2 {
+			font-size: 24px;
+			color: #333;
+			margin-bottom: 10px;
+		}
+
+		.weather-info p {
+			font-size: 18px;
+			color: #666;
+			margin-top: 10px;
+			line-height: 1.5;
+		}
+	</style>
+</head>
+<body>
+	<div>
+    	<form>
+		<label for="location">Enter a town or country:</label>
+		<input type="text" id="location" name="location" required>
+        <br><br>
+		<input type="submit" value="Get Weather">
+		</form>
+    </div>
+    
+    <div class="weather-info" style="display: none;"></div>
+
+	<script>
+		const form = document.querySelector('form');
+		const weatherInfo = document.querySelector('.weather-info');
+		const apiKey = '8e2282a5f6b3e75489367eb13ff17029';
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const locationInput = document.querySelector('#location').value;
+
+			fetch(`https://api.openweathermap.org/data/2.5/weather?q=${locationInput}&appid=${apiKey}`)
+				.then(response => response.json())
+				.then(data => {
+					const cityName = data.name;
+					const temperatureInCelsius = Math.round(data.main.temp - 273.15);
+					const humidity = data.main.humidity;
+					const windSpeed = data.wind.speed;
+
+					weatherInfo.style.display = "block";
+					weatherInfo.innerHTML = `
+						<h2>${cityName}</h2>
+						<p>Temperature: ${temperatureInCelsius}°C</p>
+						<p>Humidity: ${humidity}%</p>
+						<p>Wind Speed: ${windSpeed} m/s</p>
+					`;
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					weatherInfo.innerHTML = '<h2>Location not found. Please try again.</h2>';
+				});
+		});
+	</script>
+</body>
+</html>
