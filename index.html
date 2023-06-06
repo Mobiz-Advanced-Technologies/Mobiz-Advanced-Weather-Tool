@@ -89,7 +89,7 @@
 					const cityName = data.name;
 					const temperatureInCelsius = Math.round(data.main.temp - 273.15);
 					const humidity = data.main.humidity;
-					const actualWeather = data.weather.main;
+					const actualWeather = data.weather[0].main;
 					const windSpeed = data.wind.speed;
 
 					weatherInfo.style.display = "block";
