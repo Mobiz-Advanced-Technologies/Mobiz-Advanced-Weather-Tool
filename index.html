@@ -89,11 +89,12 @@
 					const cityName = data.name;
 					const temperatureInCelsius = Math.round(data.main.temp - 273.15);
 					const humidity = data.main.humidity;
+					const actualWeather = data.weather.main;
 					const windSpeed = data.wind.speed;
 
 					weatherInfo.style.display = "block";
 					weatherInfo.innerHTML = `
-						<h2>${cityName}</h2>
+						<h2>${actualWeather, 'in', cityName}</h2>
 						<p>Temperature: ${temperatureInCelsius}°C</p>
 						<p>Humidity: ${humidity}%</p>
 						<p>Wind Speed: ${windSpeed} m/s</p>
